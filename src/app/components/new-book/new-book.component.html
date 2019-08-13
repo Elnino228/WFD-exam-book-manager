@@ -1,23 +1,29 @@
 <h3>Create new book</h3>
-<form [formGroup]="formBook" (ngSubmit)="doAdd()">
+<form [formGroup]="formBook" (ngSubmit)="add()">
+  <input type="hidden" class="form-control"
+         formControlName="id" [(ngModel)]="book.id"
+         name="id" id="id"
+         aria-label="id" placeholder="Id">
   <label for="title">Title:</label>
   <input type="text" class="form-control"
          formControlName="title" [(ngModel)]="book.title"
          name="title" id="title"
-         aria-label="Title" placeholder="title">
-  <!--  <div *ngIf="!fields.name.valid && fields.name.touched" class="alert alert-danger">-->
-  <!--    <p *ngIf="fields.name.errors.required"> Name is required</p>-->
-  <!--    <p *ngIf="fields.name.errors.minlength"> Name is too short</p>-->
-  <!--  </div>-->
+         aria-label="Title" placeholder="Title">
+    <div *ngIf="!formBook.controls.title.valid && formBook.controls.title.touched" class="alert alert-danger">
+      Title is required
+    </div>
   <label for="author">Author:</label>
   <input type="text" class="form-control"
          formControlName="author" [(ngModel)]="book.author"
          name="author" id="author"
-         aria-label="author" placeholder="author">
+         aria-label="author" placeholder="Author">
+  <div *ngIf="!formBook.controls.author.valid && formBook.controls.author.touched" class="alert alert-danger">
+     Author is required
+  </div>
   <label>Description:</label>
   <input type="text" class="form-control"
          formControlName="description" [(ngModel)]="book.description"
          name="description" aria-label="description" placeholder="description">
-  <input type="submit" class="btn btn-success mt-2 mr-2">
-  <button type="button" class="btn btn-success mt-2" routerLink="/books">Quit</button>
+  <input type="submit" class="btn btn-success mt-2 mr-2" value="Add">
+  <a class="btn btn-danger mt-2" routerLink="/books">Quit</a>
 </form>

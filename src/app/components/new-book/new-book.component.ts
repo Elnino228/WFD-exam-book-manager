@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IBook} from '../../models/IBook';
-import {BookManagerService} from '../../book-manager.service';
+import {BookManagerService} from '../../services/book-manager.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -15,8 +15,7 @@ export class NewBookComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private bookManagerService: BookManagerService,
-              private router: Router,
-              private route: ActivatedRoute) {
+              private router: Router) {
     this.book = {
       id: +'',
       title: '',
@@ -27,16 +26,21 @@ export class NewBookComponent implements OnInit {
 
   ngOnInit() {
     this.formBook = this.formBuilder.group({
+      id: ['', [Validators.required]],
       title: ['', [Validators.required]],
       author: ['', [Validators.required]],
-      description: ['', [Validators.required]]
+      description: ['']
     });
   }
 
-  doAdd() {
+  add() {
     if (this.formBook.valid) {
-      this.bookManagerService.createBook(this.book).subscribe();
-      this.router.navigateByUrl('/books');
+      this.bookManagerService.createBook(this.book).subscribe(
+        next => this.router.navigateByUrl('/books'),
+        error => console.log(error)
+      );
+    } else {
+      alert('Data is invalid');
     }
   }
 }

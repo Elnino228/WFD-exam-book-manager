@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {IBook} from '../../models/IBook';
-import {BookManagerService} from '../../book-manager.service';
+import {BookManagerService} from '../../services/book-manager.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -24,7 +24,8 @@ export class DeleteBookComponent implements OnInit {
   }
 
   delete() {
-    this.bookManagerService.removeBook(this.book.id).subscribe(
-      next => this.router.navigateByUrl('/books'));
+    this.bookManagerService.deleteBook(this.book.id).subscribe(
+      next => this.router.navigateByUrl('/books'),
+      error => console.log(error));
   }
 }

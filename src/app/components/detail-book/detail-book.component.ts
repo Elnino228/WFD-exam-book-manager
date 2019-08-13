@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BookManagerService} from '../../book-manager.service';
+import {BookManagerService} from '../../services/book-manager.service';
 import {ActivatedRoute} from '@angular/router';
 import {IBook} from '../../models/IBook';
 
@@ -18,7 +18,8 @@ export class DetailBookComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.bookManagerService.getBookById(+id).subscribe(
-      next => this.book = next
+      next => this.book = next,
+      error => console.log(error)
     );
   }
 

@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
-import {environment} from '../environments/environment';
+import {environment} from '../../environments/environment';
 import {Location} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {IBook} from './models/IBook';
+import {IBook} from '../models/IBook';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookManagerService {
-  API_URL = Location.joinWithSlash(environment.url, 'books');
+  API_URL = environment.url;
 
   constructor(private http: HttpClient) {
   }
@@ -30,7 +30,7 @@ export class BookManagerService {
     return this.http.post<IBook>(this.API_URL, book);
   }
 
-  removeBook(id): Observable<IBook> {
+  deleteBook(id): Observable<IBook> {
     return this.http.delete<IBook>(Location.joinWithSlash(this.API_URL, id + ''));
   }
 }

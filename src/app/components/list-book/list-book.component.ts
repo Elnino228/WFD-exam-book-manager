@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BookManagerService} from '../../book-manager.service';
+import {BookManagerService} from '../../services/book-manager.service';
 import {IBook} from '../../models/IBook';
 
 @Component({
@@ -15,7 +15,8 @@ export class ListBookComponent implements OnInit {
 
   ngOnInit() {
     this.bookManagerService.getAllBooks().subscribe(
-      next => this.listBook = next
+      next => this.listBook = next,
+      error => console.log(error)
     );
   }
 

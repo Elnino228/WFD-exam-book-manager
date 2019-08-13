@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {IBook} from '../../models/IBook';
-import {BookManagerService} from '../../book-manager.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {BookManagerService} from '../../services/book-manager.service';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -24,23 +24,32 @@ export class EditBookComponent implements OnInit {
       id: ['', [Validators.required]],
       title: ['', [Validators.required]],
       author: ['', [Validators.required]],
-      description: ['', [Validators.required]]
+      description: ['']
     });
-
-    const id = this.route.snapshot.paramMap.get('id');
+    let id;
+    this.route.paramMap.subscribe(
+      (paramMap: ParamMap) => id = paramMap.get('id')
+    );
     this.bookManagerService.getBookById(+id).subscribe(
       next => {
         this.book = next;
         this.formEdit.patchValue(this.book);
-      }
+      },
+      error => console.log(error)
     );
 
   }
 
   update() {
-    const data = this.formEdit.value;
-    this.bookManagerService.updateBook(data).subscribe(
-      next => this.router.navigateByUrl('/books')
-    );
+    if (this.formEdit.valid) {
+      const data = this.formEdit.value;
+      this.bookManagerService.updateBook(data).subscribe(
+        next => this.router.navigateByUrl('/books'),
+        error => console.log(error)
+      );
+    } else {
+      alert('Data is invalid');
+    }
+
   }
 }
